@@ -5,7 +5,7 @@ export function validateCredentialNo(rule, value, callback) {
     callback();
   } else {
     if ((!reg.test(value)) && value != '') {
-      callback(new Error('请输入正确的证件号码'));
+      callback(new Error('请输入正确的身份证号'));
     } else {
       callback();
     }

@@ -1,10 +1,10 @@
 <template>
   <div class="login">
-    <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-position="left" label-width="75px" style="margin-left: 15px; margin-right: 15px">
+    <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-position="left" label-width="86px" style="margin-left: 15px; margin-right: 15px">
       <el-row :gutter="22">
         <el-col :span="24">
           <el-form-item label="身份证" prop="credentialNo">
-            <el-input v-model="ruleForm.credentialNo" @blur='credentialNoChange' maxlength="18" placeholder="请输入证件号码"></el-input>
+            <el-input v-model="ruleForm.credentialNo" @input='credentialNoChange' maxlength="18" placeholder="请输入身份证号"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -23,7 +23,7 @@
 
       <el-row :gutter="22">
         <el-col :span="24">
-          <el-button round @click="toLogin" style="margin-left:40%">登录</el-button>
+          <el-button round @click="toLogin" style="margin-left:36%">登录</el-button>
         </el-col>
       </el-row>
     </el-form>
@@ -50,6 +50,7 @@
         verifyCodeInterval: null,
         verifyCodeSecond: 60,
         verifyCodeSecondDefault: 60,
+        credentialNoFirstValid: true,
         rules: {
           credentialNo:[
             {required:true,message:'请输入证件号码',trigger:'blur'},
@@ -64,23 +65,23 @@
     methods: {
       credentialNoChange(){
         let _this = this;
-        _this.$refs['ruleForm'].validateField('credentialNo', (valid) => {
-          if (!valid) {
-            this.verifyCodeButtonDisabled = false;
-          } else {
-            console.error('参数校验失败', valid);
-            this.verifyCodeButtonDisabled = true;
-          }
-        });
+
+        if (_this.credentialNoFirstValid && 18 == _this.ruleForm.credentialNo.length) {
+          _this.credentialNoFirstValid = false;
+          _this.$refs['ruleForm'].validateField('credentialNo', (valid) => {
+          });
+        } else if (!_this.credentialNoFirstValid) {
+          _this.$refs['ruleForm'].validateField('credentialNo', (valid) => {
+          });
+        }
       },
       ...mapActions(["getVerifyCode", "doLogin"]),
       verifyCode() {
         let _this = this;
+        _this.credentialNoFirstValid = false;
         _this.$refs['ruleForm'].validateField('credentialNo', (valid) => {
           if (!valid) {
-            _this.verifyCodeButtonDisabled = false;
-            // 验证码倒计时
-            _this.setVerifyCodeInterval();
+            _this.verifyCodeButtonDisabled = true;
             let param = {
               url: memberApiUrl.getVerifyCode,
               data: {
@@ -88,7 +89,29 @@
                 "credentialNo": this.ruleForm.credentialNo,
               },
               success: function () {
+                // 验证码倒计时
                 message.success("验证码发送成功");
+                _this.setVerifyCodeInterval();
+              },
+              warningMethod: function(res) {
+                _this.verifyCodeButtonDisabled = false;
+
+                message.error({
+                  duration: 3500,
+                  showClose: true,
+                  message: res.data.msg,
+                });
+              },
+              error: function (err) {
+                _this.verifyCodeButtonDisabled = false;
+
+                if (err.message || err.response.data.error_msg) {
+                  message.error({
+                    duration: 1500,
+                    showClose: true,
+                    message: '获取验证码失败',
+                  });
+                }
               }
             }
             _this.getVerifyCode(param);
@@ -109,7 +132,7 @@
                 "credentialNo": this.ruleForm.credentialNo,
               },
               success: function () {
-                message.success("登录成功");
+                // message.success("登录成功");
               }
             }
             _this.doLogin(param);

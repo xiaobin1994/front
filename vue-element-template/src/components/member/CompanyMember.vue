@@ -1,6 +1,6 @@
 <template>
   <div class="company-member">
-    <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="86px" label-position="left" style="margin-left: 15px; margin-right: 15px">
+    <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="86px" label-position="left" style="margin: 0px 15px 15px 18px">
       <el-row :gutter="22">
         <el-col :span="24">
           <el-form-item label="姓名" prop="name">
@@ -20,7 +20,7 @@
       <el-row :gutter="22">
         <el-col :span="24">
           <el-form-item label="企业" prop="companyName">
-            <el-input v-model="ruleForm.companyName" maxlength="30"></el-input>
+            <el-input v-model="ruleForm.companyName" maxlength="30" placeholder="请输入企业名称"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -30,7 +30,7 @@
           <el-form-item label="预约日期" prop="appointmentDate">
             <el-date-picker v-model="ruleForm.appointmentDate" type="date" :picker-options="pickerOptions"
                             @change="appointmentDateChange" format="yyyy-MM-dd" value-format="yyyy-MM-dd"
-                            :editable="false" placeholder="选择预约日期"></el-date-picker>
+                            :editable="false" placeholder="请选择"></el-date-picker>
           </el-form-item>
         </el-col>
       </el-row>
@@ -91,7 +91,7 @@
         rules: {
           name:[{required:true,message:'请输入姓名',trigger:'blur'}],
           credentialNo:[
-            {required:true,message:'请输入证件号码',trigger:'blur'},
+            {required:true,message:'请输入身份证号',trigger:'blur'},
             {validator: validateCredentialNo,trigger:'blur'}
           ],
           companyName:[{required:true,message:'请输入企业名称',trigger:'blur'}],

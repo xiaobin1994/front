@@ -80,11 +80,9 @@ export default {
                 param.success();
               }
             } else {
-              message.error({
-                duration: 1500,
-                showClose: true,
-                message: res.data.msg,
-              });
+              if (param.warningMethod && typeof param.warningMethod === 'function') {
+                param.warningMethod(res);
+              }
             }
           } else {
             message.error({
@@ -96,12 +94,8 @@ export default {
         })
         .catch(err => {
           console.error('getVerifyCode', err)
-          if (err.message || err.response.data.error_msg) {
-            message.error({
-              duration: 1500,
-              showClose: true,
-              message: '获取验证码失败',
-            });
+          if (param.error && typeof param.error === 'function') {
+            param.error(err);
           }
         })
     },
