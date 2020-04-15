@@ -23,7 +23,7 @@
 
       <el-row :gutter="22">
         <el-col :span="24">
-          <el-button round @click="toLogin" style="margin-left:36%">登录</el-button>
+          <el-button type="primary" @click="toLogin" style="margin-left:36%">登录</el-button>
         </el-col>
       </el-row>
     </el-form>
@@ -85,7 +85,7 @@
             let param = {
               url: memberApiUrl.getVerifyCode,
               data: {
-                "type": "2",
+                "type": "1",
                 "credentialNo": this.ruleForm.credentialNo,
               },
               success: function () {

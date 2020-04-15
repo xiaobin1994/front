@@ -58,7 +58,7 @@
 
       <el-row :gutter="22">
         <el-col :span="24">
-          <el-button round @click="save" style="margin-left:33%">提交预约信息</el-button>
+          <el-button type="primary" @click="save" style="margin-left:33%">立即预约</el-button>
         </el-col>
       </el-row>
     </el-form>

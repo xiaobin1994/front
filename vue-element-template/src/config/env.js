@@ -10,13 +10,13 @@ if (null != urlMatchProfile && typeof urlMatchProfile != 'undefined') {
 
 switch (force || urlHost) {
     case "127.0.0.1":
-      publicApi = "http://te.qc99.me/healthExamination";
+      publicApi = "http://localhost:7012/healthExamination";
       break;
     case "localhost":
-        publicApi = "http://te.qc99.me/healthExamination";
+        publicApi = "http://localhost:7012/healthExamination";
         break;
     case "172.16.66.231":
-        publicApi = "http://te.qc99.me/healthExamination";
+        publicApi = "http://localhost:7012/healthExamination";
         break;
     case "de":
         publicApi = "http://te.qc99.me/healthExamination";

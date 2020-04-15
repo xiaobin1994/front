@@ -1,8 +1,8 @@
 <template>
   <div class="menuTop">
     <el-tabs v-model="activeName" type="card" @tab-click="tabChange" stretch="stretch">
-      <el-tab-pane label="团队/企业体检预约" name="first"></el-tab-pane>
-      <el-tab-pane label="个人体检预约" name="second"></el-tab-pane>
+      <el-tab-pane label="团队/企业客户体检预约" name="first"></el-tab-pane>
+      <el-tab-pane label="个人客户体检预约" name="second"></el-tab-pane>
     </el-tabs>
   </div>
 </template>
